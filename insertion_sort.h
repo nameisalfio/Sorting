@@ -23,6 +23,23 @@ void insertion_sort(int vet[], int n){
     }
 }
 
+//ALTERNATIVA
+void insertionSort(int vet[], int n)
+{
+    for(int j=1;j<n;j++) 
+    { 
+        int key = vet[j]; 
+        int i=j-1; 
+        while(i>=0 && vet[i]>key) 
+        { 
+            vet[i+1] = vet[i]; 
+            i--;
+        } 
+        vet[i+1] = key ;  
+    } 
+}
+
+
 /*
 Possiamo migliorare l’insertion sort utilizzando la ricerca binaria
 per collocare correttamente l’elemento a[i] nel sottoarray

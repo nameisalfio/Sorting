@@ -27,50 +27,45 @@
 	massimo. Sfrutta la struttura dei dati dell'heap per ottenere l'elemento massimo in un tempo costante.
 */
 
-// To heapify a subtree rooted with node i (which is an index in arr[]) 
-// n is size of heap
-void MaxHeapify(int arr[], int n, int i)
+#include<cmath>
+int heapsize;
+
+void maxHeapify(int arr[], int i)
 {
-    //Indexes
-    int largest = i; // Initialize largest as root
-    int l = 2 * i + 1; 
-    int r = 2 * i + 2; 
+	int max = i;
+	int l = 2*i + 1;
+	int r = 2*i + 2;
 
-    //Sistemo la struttura in modo che non ci siano figli più grandi dei genitori
+	if(l<heapsize && arr[l]>arr[max])
+		max = l;
 
-        // If left child is larger than root
-        if (l < n && arr[l] > arr[largest])
-            largest = l;
+	if(r<heapsize && arr[r]>arr[max])
+		max = r;
 
-        // If right child is larger than largest so far
-        if (r < n && arr[r] > arr[largest])
-            largest = r;
+	if(max != i)
+	{
+		swap(arr[i], arr[max]);
+		maxHeapify(arr, max);
+	}
+}
 
-        // If largest is not root
-        if (largest != i) {
-            swap(arr[i], arr[largest]);
-
-    //Ripeto ricorsivamente la procedura in modo da estendere la proprietà al resto delle foglie
-
-        // Recursively heapify the affected sub-tree
-        MaxHeapify(arr, n, largest);
-    }
+void buildMaxHeap(int arr[])
+{
+	int n = heapsize;
+	for(int i=floor(n/2); i>=0; i--)	//tutti gli elementi nel sottoarray [floor(n/2)...n] sono foglie dell'albero
+		maxHeapify(arr, i);
 }
 
 void heapSort(int arr[], int n)
 {
-    // Build heap (rearrange array)
-    for (int i = floor(n/2) ; i >= 0; i--)
-        MaxHeapify(arr, n, i);
-
-    // One by one extract an element from heap
-    for (int i = n - 1; i >= 0; i--) 
-    {   
-        swap(arr[0], arr[i]);   // Move current root(MAX element) to end
-                                //ex.    9 3 4 8 2 6
-                                //       3 4 8 2 6 9
-        MaxHeapify(arr, i, 0);  // call max heapify on the reduced heap
-    }
+	heapsize = n;
+	buildMaxHeap(arr);		//O(n)
+	for(int i=n-1; i>0; i--)
+	{
+		swap(arr[0], arr[i]);
+		heapsize--;
+		maxHeapify(arr, 0);		//O(log n)
+	}
 }
 
 #endif

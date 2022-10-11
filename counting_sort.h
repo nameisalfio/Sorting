@@ -3,39 +3,42 @@
 
 #include "print_swap.h"
 
+int getMax(int A[], int n){
+    int max = A[0];
+    for(int i=0; i<n; i++)
+        if(A[i] > max)  max = A[i];
+    return max;
+}
+int getMin(int A[], int n){
+    int min = A[0];
+    for(int i=0; i<n; i++)
+        if(A[i] < min)  min = A[i];
+    return min;
+}
+
 void countingSort(int A[],int n)
 { 
     //Calcolo del range 
-    int max = A[0];
-    int min = A[0];
-    for(int i=0; i<n; i++)
-    {
-        if(A[i] < min)  min = A[i];
-        if(A[i] > max)  max = A[i];
-    }
+    int max = getMax(A, n);
+    int min = getMin(A, n);
     int range = max-min+1;
 
-    int B[range]{0};    //vettore contatore
-    
-    //incremento l'elemento di indice x per ogni ricorrenza di  x in A
+    int C[range]{0};    //counting
     for(int i=0; i<n; i++)
-        ++B[A[i]];
-    
-    //modifico il vettore B in modo da avere nell'elemento di indice i, il numero di elementi minori o uguali di i nel vettore A
-    //implicitamente ci da informazione su dove collocare l'elemento nel vettore risultante
+        C[A[i]]++;      //incremento per ogni ricorrenza dell'elemento A[i] trovata
+
     for(int i=1; i<range; i++)
-        B[i] = B[i]+B[i-1];     //sommo ad ogni elemento il valore del precedente
-    
-    int ris[n]; //vettore risultato
-    for(int i=0; i<n; i++)
-        ris[--B[A[i]]] = A[i];
+        C[i] += C[i-1]; //in C[i] ho il numero di elementi minori o uguali ad i nell'array di input
 
-        //B[A[i]]--;    //prima decremento il numero di elementi minori o uguali rimanenti
-        //ris[B[A[i]]] = A[i];  //poi inserisco la ricorrenza appena rimossa nella posizione corretta
+    int B[n];   //output
+    for(int i=n-1; i>=0; i--)
+    {
+        B[C[A[i]]] = A[i];
+        C[A[i]]--;      //decremento C[A[i]] per tenere conto degli elementi uguali inseriti
+    }
 
-    //copio gli elementi ordinati nel vettore A
-    for(int i=0; i<n; i++)
-        A[i] = ris[i];
+    for(int i=0; i<n; i++)  //ricopio i valori ordinati nell'array di input
+        A[i] = C[i];
 }
 
 #endif

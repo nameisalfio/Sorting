@@ -1,6 +1,27 @@
 #ifndef COUNTING_SORT_H
 #define COUNTING_SORT_H
 
+/*
+    CountingSort
+    L’algoritmo counting sort suppone che ciascuno degli n elementi di input sia un numero intero compreso nell’intervallo da 0 a k, per
+    qualche intero k. Quando il range di valori è confrontabile con il numero di elementi da ordinare, quindi se k = O(n), l’ordinamento 
+    viene effettuato nel tempo Teta(n), ma più correttamente, la complessità di Counting Sort è Teta(n+k). 
+    Il concetto che sta alla base di counting sort è determinare, per ogni elemento di input x, il 
+    numero di elementi minori di x. Nel codice di counting sort, supponiamo che l’input sia un array A[1 . . n], quindi lunghezza[A] = n. 
+    Occorrono altri due array: 
+        - l’array B[1 . . n] contiene l’output ordinato; 
+        - l’array C[0 . . k] fornisce la memoria temporanea di lavoro;
+
+    Un’importante proprietà di counting sort è la stabilità: i numeri con lo stesso valore si presentano nell’array di output nello stesso 
+    ordine in cui si trovano nell’array di input. Ovvero, i pareggi fra due numeri vengono risolti applicando la seguente regola: 
+        "il numero che si presenta per primo nell’array di input sarà inserito per primo nell’array di output". 
+
+    Normalmente, la proprietà della stabilità è importante soltanto quando i dati satellite vengono spostati insieme con gli elementi da 
+    ordinare. La stabilità di counting sort è importante per un’altra ragione: counting sort viene spesso utilizzato come subroutine 
+    di radix sort.
+
+*/
+
 #include "print_swap.h"
 
 int getMax(int A[], int n){

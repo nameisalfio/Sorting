@@ -39,27 +39,28 @@ int getMin(int A[], int n){
 
 void countingSort(int A[],int n)
 { 
-    //Calcolo del range 
-    int max = getMax(A, n);
-    int min = getMin(A, n);
-    int range = max-min+1;
+    //Calcolo del range
+    int m = getMin(A, n);
+    int M = getMax(A,n);
+    int range = M-m+1;
 
-    int C[range]{0};    //counting
+    int C[range]{0};    // Counting
+
     for(int i=0; i<n; i++)
-        C[A[i]]++;      //incremento per ogni ricorrenza dell'elemento A[i] trovata
+        C[A[i]-m] ++;   // incremento per ogni ricorrenza dell'elemento A[i] trovata
 
     for(int i=1; i<range; i++)
-        C[i] += C[i-1]; //in C[i] ho il numero di elementi minori o uguali ad i nell'array di input
+        C[i]+= C[i-1];      // adesso in C[i] ho il numero di elementi minori o uguali ad i nell'array di input
 
-    int B[n];   //output
+    int B[n];
     for(int i=n-1; i>=0; i--)
     {
-        B[C[A[i]]] = A[i];
-        C[A[i]]--;      //decremento C[A[i]] per tenere conto degli elementi uguali inseriti
+        B[C[A[i]-m]-1] = A[i];
+        C[A[i]-m]--;    // decremento C[A[i]] per tenere conto degli elementi uguali inseriti
     }
 
-    for(int i=0; i<n; i++)  //ricopio i valori ordinati nell'array di input
-        A[i] = C[i];
+    for(int i=0; i<n; i++)
+        A[i] = B[i];    // ricopio i valori ordinati nell'array di input
 }
 
 #endif
